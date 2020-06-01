@@ -1,0 +1,25 @@
+{
+  "name": "faucet",
+  "version": "1.0.0",
+  "description": "Faucet example",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Ethereum",
+    "Smart",
+    "Contracts",
+    "Solidity",
+    "Truffle"
+  ],
+  "author": "Lorran Sutter",
+  "license": "MIT",
+  "dependencies": {
+    "bignumber.js": "^9.0.0",
+    "truffle-assertions": "^0.9.2"
+  }
+}

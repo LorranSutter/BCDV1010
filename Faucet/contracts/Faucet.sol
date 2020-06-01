@@ -4,7 +4,7 @@ pragma solidity ^0.6.0;
 
 
 contract Faucet {
-    event Withdrawl(address indexed to, uint256 amount);
+    event Withdrawal(address indexed to, uint256 amount);
     event Deposit(address indexed from, uint256 amount);
 
     // give out ether to anyone who asks
@@ -16,10 +16,10 @@ contract Faucet {
         // check for sufficient funds
         require(
             address(this).balance >= withdraw_amount,
-            "Faucet: Insufficient balance for withdrawl request"
+            "Faucet: Insufficient balance for withdrawal request"
         );
         msg.sender.transfer(withdraw_amount);
-        emit Withdrawl(msg.sender, withdraw_amount);
+        emit Withdrawal(msg.sender, withdraw_amount);
     }
 
     receive() external payable {
