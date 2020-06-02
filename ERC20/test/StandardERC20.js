@@ -11,8 +11,10 @@ contract("StandardERC20", (accounts) => {
   const receipient1Amount = web3.utils.toBN(500000000000000000);
   const spender = accounts[2];
   const spenderAmount = web3.utils.toBN(300000000000000000);
+  const spenderAmountDiff = web3.utils.toBN(1 * 10 ** 17);
   const receipient2 = accounts[3];
   let standardERC20Instance;
+
   before(async () => {
     standardERC20Instance = await StandardERC20.deployed();
     const name = await standardERC20Instance.name.call();
@@ -134,6 +136,72 @@ contract("StandardERC20", (accounts) => {
         new BigNumber(expectedReceipient1Balance)
       ),
       "The receipient1's balance is not as expected"
+    );
+  });
+
+  it("test increaseAllowance()", async () => {
+    const allowanceSpenderOld = await standardERC20Instance.allowance.call(
+      receipient1,
+      spender
+    );
+
+    const increaseAllowanceTx = await standardERC20Instance.increaseAllowance(
+      receipient1,
+      spenderAmountDiff,
+      { from: spender }
+    );
+
+    const newSpenderAmount = new BigNumber(allowanceSpenderOld + spenderAmountDiff);
+
+    truffleAssert.eventEmitted(increaseAllowanceTx, "Approval", (obj) => {
+      return (
+        obj.owner === receipient1 &&
+        obj.spender === spender &&
+        new BigNumber(obj.value).isEqualTo(newSpenderAmount)
+      );
+    });
+
+    const allowanceSpenderIncreased = await standardERC20Instance.allowance.call(
+      receipient1,
+      spender
+    );
+
+    assert(
+      newSpenderAmount.isEqualTo(allowanceSpenderIncreased),
+      "The allowance increase is not as expected"
+    );
+  });
+
+  it("test decreaseAllowance()", async () => {
+    const allowanceSpenderOld = await standardERC20Instance.allowance.call(
+      receipient1,
+      spender
+    );
+
+    const decreaseAllowanceTx = await standardERC20Instance.decreaseAllowance(
+      receipient1,
+      spenderAmountDiff,
+      { from: spender }
+    );
+
+    const newSpenderAmount = new BigNumber(allowanceSpenderOld - spenderAmountDiff);
+
+    truffleAssert.eventEmitted(decreaseAllowanceTx, "Approval", (obj) => {
+      return (
+        obj.owner === receipient1 &&
+        obj.spender === spender &&
+        new BigNumber(obj.value).isEqualTo(newSpenderAmount)
+      );
+    });
+
+    const allowanceSpenderDecreased = await standardERC20Instance.allowance.call(
+      receipient1,
+      spender
+    );
+
+    assert(
+      newSpenderAmount.isEqualTo(allowanceSpenderDecreased),
+      "The allowance decrease is not as expected"
     );
   });
 });

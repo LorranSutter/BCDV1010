@@ -117,7 +117,7 @@ contract StandardERC20 is IERC20 {
     }
     
     function transfer(address recipient, uint256 amount) public override returns (bool) {
-        _transfer(msg.sender, recipient,amount );
+        _transfer(msg.sender, recipient,amount);
         return true;
     }
     
@@ -128,11 +128,21 @@ contract StandardERC20 is IERC20 {
     
     function allowance(address owner, address spender) public override view returns(uint256) {
         return _allowances[owner][spender];
-    } 
-    
+    }
+        
     function transferFrom(address sender, address recipient, uint256 amount) public override returns(bool) {
         _transfer(sender, recipient, amount);
         _approve(sender, msg.sender, _allowances[sender][msg.sender] - amount);
+        return true;
+    }
+
+    function increaseAllowance(address spender, uint256 addedValue) public returns(bool) {
+        _approve(spender, msg.sender, _allowances[spender][msg.sender] + addedValue);
+        return true;
+    }
+    
+    function decreaseAllowance(address spender, uint256 addedValue) public returns(bool) {
+        _approve(spender, msg.sender, _allowances[spender][msg.sender] - addedValue);
         return true;
     }
     
