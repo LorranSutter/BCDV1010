@@ -146,9 +146,9 @@ contract("StandardERC20", (accounts) => {
     );
 
     const increaseAllowanceTx = await standardERC20Instance.increaseAllowance(
-      receipient1,
+      spender,
       spenderAmountDiff,
-      { from: spender }
+      { from: receipient1 }
     );
 
     const newSpenderAmount = new BigNumber(allowanceSpenderOld + spenderAmountDiff);
@@ -179,9 +179,9 @@ contract("StandardERC20", (accounts) => {
     );
 
     const decreaseAllowanceTx = await standardERC20Instance.decreaseAllowance(
-      receipient1,
+      spender,
       spenderAmountDiff,
-      { from: spender }
+      { from: receipient1 }
     );
 
     const newSpenderAmount = new BigNumber(allowanceSpenderOld - spenderAmountDiff);
