@@ -5,13 +5,13 @@ const StandardERC20 = artifacts.require("StandardERC20");
 contract("StandardERC20", (accounts) => {
   const tokenNameExpected = "GBC Token";
   const tokenSymbolExpected = "GBC";
-  const tokenSupplyExpected = web3.utils.toBN(10000000000000000000);
+  const tokenSupplyExpected = web3.utils.toBN(10 ** 19);
   const creator = accounts[0];
   const receipient1 = accounts[1];
-  const receipient1Amount = web3.utils.toBN(500000000000000000);
+  const receipient1Amount = web3.utils.toBN(5 * 10 ** 17);
   const spender = accounts[2];
-  const spenderAmount = web3.utils.toBN(300000000000000000);
-  const spenderAmountDiff = web3.utils.toBN(1 * 10 ** 17);
+  const spenderAmount = web3.utils.toBN(3 * 10 ** 17);
+  const spenderAmountDiff = web3.utils.toBN(10 ** 17);
   const receipient2 = accounts[3];
   let standardERC20Instance;
 
